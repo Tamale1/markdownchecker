@@ -11,6 +11,16 @@ const MarkdownEditor: React.FC =()=>{
   setMarkdown(e.target.value)
   
   }
+const exportToFile = () =>{
+  const blob = new Blob([markdown],{type: 'text/markdown'})
+  const link = document.createElement('a')
+  link.download = 'markdown-export.md'
+  link.href= window.URL.createObjectURL(blob)
+  link.click()
+  link.remove()
+}
+
+
   const createSanitizeOutput=()=>{
   const rawMarkup = marked(markdown)
   const sanitizedMarkup = DOMPurify.sanitize(rawMarkup)
@@ -23,8 +33,9 @@ const MarkdownEditor: React.FC =()=>{
 
     <div className="markdown-preview" dangerouslySetInnerHTML={createSanitizeOutput()} />
 
-   
+   <button onClick={exportToFile} className="export-button"> Export to Markdown</button>
     </div>
    
     )
 }
+export default MarkdownEditor 
